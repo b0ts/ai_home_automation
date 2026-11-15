@@ -22,7 +22,7 @@
 
 - [x] Step 1: Tracking: initialized 2026-11-12 (ongoing)
 - [x] Step 2: Feasibility: approved 2026-11-14 (D4)
-- [ ] Step 3: Requirements (v1.0 sent back for a small revision, D8)
+- [x] Step 3: Requirements: approved 2026-11-14, version 1.1 (D9)
 - [ ] Step 4: Design
 - [ ] Step 5: User Experience
 - [ ] Step 6: Initial Infrastructure (DevOps support continues through Step 10)
@@ -51,6 +51,7 @@ Not used for this project.
 | D6 | 2026-11-14 | 3 Requirements | Two approved success measures (D4) changed, as set out in PRD v1.0 Section 7: "Others can repeat it" now means a complete build guide in the repo, not a second person's working build; the back-door alarm starts within 5 seconds after a 10-second entry delay, and also after 3 wrong passwords | b0ts | A second builder isn't needed for this project to be done; the entry delay lets a household member disarm |
 | D7 | 2026-11-14 | 3 Requirements | Accepted as written in PRD v1.0: the 10-second entry delay with the speakerphone near the front door (see I7); the Christmas-light schedule runs all year; SOS flashing on the smart plug (see I8) | b0ts | Prototype; the bulb color changes with the season; revisit if trials show a problem |
 | D8 | 2026-11-14 | 3 Requirements | Go back: PRD revised to version 1.1. The alarm announcement asks the person to call the household ("call us") without giving a number, and the remote-disarm phone number is removed from the stored secrets | b0ts | A person let in while the household is away will already have the number; nothing need be stored or announced |
+| D9 | 2026-11-14 | 3 Requirements | Go: PRD (d03-01) version 1.1 approved; on to Step 4: Design | b0ts | D8 change made throughout; no open question affects a Must-have use case. Sensor choices (I5, I6) left to Design |
 
 ## 5. Issue Log
 
@@ -72,8 +73,8 @@ Not used for this project.
 
 ## 7. Next Action
 
-- **Next chat:** Step 3: Requirements, back in the existing `03-requirements` chat, for PRD version 1.1 (go-back, D8)
-- **Prompt:** `prompts/c03-requirements-prompt.md` (already loaded in that chat)
-- **Templates to fill in:** `docs/d03-01-prd.md` (revise in place; add a Change Log row)
-- **Give it:** the change in D8: the alarm says "call us" with no phone number, and the remote-disarm phone number is removed from the stored secrets (UC-6, UC-8, Section 3 Users, Section 6 Privacy). Decisions D6 and D7 for its Change Log
-- **Waiting on:** nothing. After v1.1, return here for the go/no-go review; then Step 4: Design
+- **Next chat:** Step 4: Design. Open a new chat named `04-design` in the "ai_home_automation" Claude Project.
+- **Prompt:** `prompts/c04-design-prompt.md`
+- **Templates to fill in:** `docs/d04-01-spec.md`, and `docs/d04-02-design-options.md` where there is a real choice to compare (for example, the voice set-up, the door sensor, or the porch motion sensor)
+- **Give it:** `prompts/c04-design-prompt.md`, `docs/d01-01-checklist.md`, `docs/d03-01-prd.md` (v1.1), `docs/d02-01-one-pager.md` (for its technical risks), `docs/d04-01-spec.md`, `docs/d04-02-design-options.md`. Points to cover: I1 (hardware in the Spec), I5 and I6 (sensor choices), I8 (the plug's switching limits), and the alarm's state diagram
+- **Waiting on:** nothing
