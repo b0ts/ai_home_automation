@@ -25,7 +25,7 @@
 - [x] Step 3: Requirements: approved 2026-11-14, version 1.1 (D9); version 1.2 approved 2026-11-15 (D10)
 - [x] Step 4: Design: approved 2026-11-15, Spec version 1.0 (D12)
 - [ ] Step 5: User Experience
-- [ ] Step 6: Initial Infrastructure (DevOps support continues through Step 10)
+- [ ] Step 6: Initial Infrastructure (DevOps support continues through Step 10): started early, in parallel with Step 5 (D14)
   - [ ] Cost sign-off: Cost Sign-Off Sheet approved, before anything is set up
   - [ ] Final sign-off: System Infrastructure Document approved, before Step 7
 - [ ] Step 7: Test Creation
@@ -56,6 +56,7 @@ Not used for this project.
 | D11 | 2026-11-15 | 4 Design | Accepted: no AI language model runs in the house for this prototype. Voice is handled on the Pi as a fixed list of phrases; Claude is used for development only. AI in the house is left to the later on-premises project | b0ts | Cheaper ($0 a month), private (no voice audio leaves the Pi) and fast enough for the 3-second target |
 | D12 | 2026-11-15 | 4 Design | Go: Spec (d04-01) version 1.0 and Design Options (d04-02) approved, including DD-2 (voice Option A on the Pi), DD-3 (Tailscale for remote access) and DD-4 (Zigbee2MQTT, confirmed before any device is paired) | b0ts | Every use case has a sequence diagram; alarm state diagram, parts list and connections included; no open question affects a Must-have use case |
 | D13 | 2026-11-15 | 6 Initial Infrastructure | Early hardware assembly allowed, in parallel with Steps 5 to 7, using only parts already bought or owned. Nothing new is bought until the Step 6 cost sign-off. Findings go to the Initial Infrastructure chat | b0ts | Hardware is on hand; early checks (Jabra, Zigbee reach) remove the biggest risks sooner |
+| D14 | 2026-11-15 | 6 Initial Infrastructure | Step 6 starts early, in parallel with Step 5, for hardware assembly and the cost sign-off. Scope until Step 5 is approved: intake, cost sign-off (d06-03), and the three hardware stages with their sanity tests, recorded in the Infrastructure Document (d06-01) as the source for the build guide (UC-9). The guide's final layout follows the UI/UX Document; d06-01's final sign-off waits for Step 5's Go | b0ts | Hardware is on hand (D13); early checks of the Jabra and Zigbee reach remove the biggest risks sooner |
 
 ## 5. Issue Log
 
@@ -79,8 +80,20 @@ Not used for this project.
 
 ## 7. Next Action
 
-- **Next chat:** Step 5: User Experience. Open a new chat named `05-user-experience` in the "ai_home_automation" Claude Project.
+Two chats run in parallel (D14).
+
+**A. Step 5: User Experience** (unchanged)
+
+- **Next chat:** `05-user-experience` in the "ai_home_automation" Claude Project
 - **Prompt:** `prompts/c05-user-experience-prompt.md`
 - **Templates to fill in:** `docs/d05-01-ui-ux.md` and `docs/d05-02-style-guide.md`
-- **Give it:** `prompts/c05-user-experience-prompt.md`, `docs/d01-01-checklist.md`, `docs/d03-01-prd.md` (v1.2), `docs/d04-01-spec.md` (v1.0), `docs/d05-01-ui-ux.md`, `docs/d05-02-style-guide.md`. No website or logo: this is a new personal project. Screens and wording to cover: the phone dashboard (alarm state and a Disarm button); the owner's settings (code and wake word); the exact spoken phrases and replies, including the decoy light names and the alarm announcement; the layout of the build guide (UC-9)
-- **Waiting on:** nothing. Early hardware assembly may run alongside (D13), with no new purchases before the Step 6 cost sign-off
+- **Give it:** `prompts/c05-user-experience-prompt.md`, `docs/d01-01-checklist.md`, `docs/d03-01-prd.md` (v1.2), `docs/d04-01-spec.md` (v1.0), and the two templates. No website or logo. Cover the phone dashboard, the owner's settings, the exact spoken phrases and replies (including decoys and the alarm announcement), and the build guide's layout (UC-9)
+- **Waiting on:** nothing
+
+**B. Step 6: Initial Infrastructure, early start** (D13, D14)
+
+- **Next chat:** `06-initial-infrastructure`, in Claude Code in `~/projects/ai_home_automation` (or a Claude Project chat)
+- **Prompt:** `prompts/c06-initial-infrastructure-prompt.md`
+- **Templates to fill in:** `docs/d06-03-cost-sign-off.md` first, then `docs/d06-01-infrastructure.md`; `docs/d06-02-infrastructure-options.md` only if there's a real hosting choice
+- **Give it:** `prompts/c06-initial-infrastructure-prompt.md`, `docs/d01-01-checklist.md`, `docs/d03-01-prd.md` (v1.2), `docs/d04-01-spec.md` (v1.0). The UI/UX Document isn't ready yet (D14). Points to cover: I4 (hardware total), I9 (licences), the Spec's Section 15 assumptions, the three hardware stages with step-by-step assembly notes for the build guide, Tailscale, and the secrets rules (`.gitignore` and a repo scan)
+- **Waiting on:** the Step 6 cost sign-off before anything new is bought (D13); Step 5's Go before d06-01's final sign-off
