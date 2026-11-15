@@ -1,7 +1,7 @@
 # AI Home Automation, Starter System: Software Design Specification (Spec)
 
 **Document:** d04-01 · **Step:** 4, Design · **Version:** 1.0
-· **Last updated:** 2026-11-15 · **Status:** Draft
+· **Last updated:** 2026-11-15 · **Status:** Awaiting sign-off
 · **Owner:** Software Architect (Design chat)
 
 **Diagrams included:** System Overview; UML Sequence Diagram for every use
@@ -18,8 +18,8 @@ obvious from the System Overview (Tracking issue I1).
 | Item | Details |
 |---|---|
 | Product | AI Home Automation, Starter System (repo: ai_home_automation) |
-| Source PRD | d03-01, version 1.1, 2026-11-14 |
-| PRD sign-off | D9, 2026-11-14 (as reported by b0ts; not yet in the repo copy of the Tracking Checklist d01-01) |
+| Source PRD | d03-01, version 1.2, 2026-11-15 |
+| PRD sign-off | D9, 2026-11-14 (version 1.1); version 1.2's sign-off is to be recorded in the Tracking chat with this Spec's review |
 | Phase covered | All: UC-1 to UC-9 (single phase) |
 | Application type | A home server: Home Assistant OS on a Raspberry Pi 5, configured with automations, with a USB speakerphone as the voice station and the Home Assistant phone app on the two iPhones; plus a step-by-step build guide in the public repo |
 | Design in one sentence | Home Assistant on the Pi hears the wake word and a fixed set of spoken phrases through the speakerphone, keeps the alarm's state and the secrets on the Pi, switches the Zigbee plug and porch bulb in response to the time, motion, the back door, voice and the phone app, and is reached from outside the home only through Tailscale. |
@@ -28,7 +28,7 @@ obvious from the System Overview (Tracking issue I1).
 
 | Input | Source | Notes |
 |---|---|---|
-| Product Requirements Document | d03-01, version 1.1 | Main input: 7 actors, 9 Must-have use cases |
+| Product Requirements Document | d03-01, version 1.2 (version 1.1 approved by D9; version 1.2 answers this Spec's requests R1 to R4) | Main input: 6 actors, 9 Must-have use cases |
 | Constraints | PRD Section 7 | Under $500 one-time and $50 a month; Home Assistant OS on the Pi with Zigbee; cloud AI allowed; secrets only on the Pi; public MIT repo; James's system described only in general terms (D3) |
 | Quality requirements | PRD Section 6 | Porch light within 2 s; voice commands within 3 s; alarm starts within 5 s after the entry delay and stops within 5 s; schedule recovers within 5 minutes of a restart |
 | Existing technology | b0ts, Design chat, 2026-11-14 and 2026-11-15 | Raspberry Pi 5 (8 GB) kit with 1 TB USB SSD; SONOFF EFR32MG24 Zigbee coordinator; SONOFF SNZB-03PR2 motion sensor; Sengled Zigbee A19 bulbs; Shelly Plug US Gen4 (Zigbee mode); Shelly BLU Door/Window ZB (Zigbee mode); Jabra Speak 510 USB speakerphone (model PHS002W); two iPhones; Claude Pro and a Claude API key (not needed at run time with the chosen design) |
@@ -87,8 +87,8 @@ flowchart LR
     TS -.- S
 ```
 
-The PRD's "Cloud voice service" actor is not used in this design (d04-02,
-Option A). A request to remove it from the PRD is in Section 16.
+As in PRD version 1.2, no cloud voice service is used: all voice processing
+is on the Pi (d04-02, Option A).
 
 ## 5. Components
 
@@ -99,7 +99,7 @@ Option A). A request to remove it from the PRD is in Section 16.
 | Voice station | Listens through the speakerphone, hears the wake word, turns a known phrase into text, speaks replies and announcements | Home Assistant add-ons: Assist Microphone (uses the USB speakerphone as a voice satellite), openWakeWord (wake word), Speech-to-Phrase (fixed-phrase recognition), Piper (speech) | UC-3, UC-4, UC-5, UC-6, UC-7, UC-8 (wake word) |
 | Application server | Runs every rule: the Christmas schedule, porch timer, voice commands, the alarm state machine (Section 12.1), disarm checks, SOS and flashing, restoring lights | Home Assistant Core: automations and scripts in YAML, sentence triggers, helpers (input_select, input_boolean, input_text, counter, timer), the sun integration | UC-1 to UC-8 |
 | Storage | Keeps settings, helper values, the disarm code, the wake-word choice, device history, and the home location | Home Assistant's configuration files and built-in database (SQLite) on the SSD | UC-1 to UC-8 |
-| Zigbee bridge | Pairs and talks to the Zigbee devices, and passes their messages to Home Assistant | Zigbee2MQTT add-on, Mosquitto MQTT broker add-on (MQTT is a light messaging system), SONOFF USB coordinator (pending confirmation, DD-4) | UC-1, UC-2, UC-4 to UC-7 |
+| Zigbee bridge | Pairs and talks to the Zigbee devices, and passes their messages to Home Assistant | Zigbee2MQTT add-on, Mosquitto MQTT broker add-on (MQTT is a light messaging system), SONOFF USB coordinator (DD-4) | UC-1, UC-2, UC-4 to UC-7 |
 | Phone app | Reports whether each phone is home; lets a household member disarm from anywhere and see the alarm state | Home Assistant Companion app for iPhone (external system) | UC-5, UC-7 |
 | Remote access | Lets the phones reach Home Assistant from outside the home, encrypted, with no open router ports | Tailscale add-on on the Pi and the Tailscale app on each iPhone (DD-3) | UC-5, UC-7 |
 | Settings page | Lets the owner change the disarm code and choose the wake word | Home Assistant web page, owner account only | UC-8 |
@@ -612,7 +612,7 @@ the repo (UC-9 acceptance criteria).
 | Accessibility | Not required | Not required. The guide notes that builders may add accessibility hardware and software. |
 | Devices and browsers | Two household phones with the phone app; one speakerphone near the front door | Home Assistant Companion app on both iPhones, plus the Tailscale app. Jabra Speak 510 on USB by the front door, with the Pi. |
 | Languages | English only | English phrases, an English voice (Piper) and English wake words. The guide notes that builders can add languages. |
-| Privacy and data | Audio after the wake word was to go to a cloud voice service; phone presence used for disarming; password, wake word and home/away state kept only on the Pi; no visitor data | Stricter than the PRD: no audio leaves the Pi (request R2 updates the PRD). Phone presence travels only between the phones and the Pi, encrypted (Tailscale or the home network). Secrets stay on the Pi (Section 11). The motion sensor records only "motion" events, not who. |
+| Privacy and data | No voice audio leaves the home system; phone presence used for disarming; password, wake word and home/away state kept only on the home system; no visitor data | No audio leaves the Pi: the wake word, phrase recognition and speech all run on it. Phone presence travels only between the phones and the Pi, encrypted (Tailscale or the home network). Secrets stay on the Pi (Section 11). The motion sensor records only "motion" events, not who. |
 
 ## 11. Security & Compliance
 
@@ -725,10 +725,10 @@ See Section 5.3.
 | DD-1 | Build on Home Assistant OS on the Pi, configured with YAML automations, add-ons and the Companion app | Home Assistant OS; Linux with Docker; custom program | Fixed by the PRD (Section 7). Every use case fits Home Assistant's standard parts. | 2026-11-15 |
 | DD-2 | Voice: Option A, phrases on the Pi (openWakeWord, Speech-to-Phrase, Piper, Assist Microphone with the Jabra) | A: phrases on the Pi; B: cloud speech and Claude; C: Whisper on the Pi | Meets the 3 s target, keeps the password on the Pi, $0 a month (d04-02). Chosen by b0ts. | 2026-11-15 |
 | DD-3 | Remote access by Tailscale (add-on on the Pi, app on both iPhones) | Tailscale; Home Assistant Cloud (Nabu Casa, $6.50 a month) | No monthly cost, encrypted, no open router ports. Chosen by b0ts. Trade-off: the Tailscale app must stay connected on the phones for remote disarm. | 2026-11-15 |
-| DD-4 | Zigbee through Zigbee2MQTT with the Mosquitto broker | Zigbee2MQTT; ZHA (built into Home Assistant) | Zigbee2MQTT lists the door sensor (SBDW-103C) and the plug (S4PL-00116US) explicitly. Changing later means pairing every device again. **Pending b0ts's confirmation, before pairing.** | 2026-11-15 |
+| DD-4 | Zigbee through Zigbee2MQTT with the Mosquitto broker | Zigbee2MQTT; ZHA (built into Home Assistant) | Zigbee2MQTT lists the door sensor (SBDW-103C) and the plug (S4PL-00116US) explicitly. Changing later means pairing every device again. Confirmed by signing off this Spec, which must happen before any device is paired. | 2026-11-15 |
 | DD-5 | The alarm is its own state machine (one helper with five states, plus timers and scripts) | Home Assistant's Manual alarm panel; own state machine | The PRD needs things the Manual panel doesn't do simply: an immediate alarm after the third wrong code, voice lockout during an alarm, disarm by phone presence. Explicit states are easier to test. | 2026-11-15 |
-| DD-6 | The password is a spoken code of digits (4 proposed), stored in a password-type helper and left out of history | Spoken word password; digit code | A phrase-only recognizer could hear a wrong word as the right one. Every digit combination is a known phrase, so the code is compared exactly. Chosen by b0ts. **Needs PRD change R3.** | 2026-11-15 |
-| DD-7 | During an alarm the plug flashes 5 s on, 5 s off. Only the porch bulb flashes SOS. | SOS on both; steady flashing on the plug | The plug is rated 10,000 cycles: SOS uses about 480 to 950 per alarm, steady flashing about 180 (Section 5.4). Chosen by b0ts. **Needs PRD change R1.** | 2026-11-15 |
+| DD-6 | The password is a spoken code of digits (4 proposed), stored in a password-type helper and left out of history | Spoken word password; digit code | A phrase-only recognizer could hear a wrong word as the right one. Every digit combination is a known phrase, so the code is compared exactly. Chosen by b0ts. In PRD version 1.2 (R3). | 2026-11-15 |
+| DD-7 | During an alarm the plug flashes 5 s on, 5 s off. Only the porch bulb flashes SOS. | SOS on both; steady flashing on the plug | The plug is rated 10,000 cycles: SOS uses about 480 to 950 per alarm, steady flashing about 180 (Section 5.4). Chosen by b0ts. In PRD version 1.2 (R1). | 2026-11-15 |
 | DD-8 | Sunrise and sunset from Home Assistant's sun integration, using the home location stored on the Pi | Sun integration; an online sunrise service | Works offline, no outside data source, standard and testable | 2026-11-15 |
 | DD-9 | Keep the SONOFF SNZB-03PR2 motion sensor, under the eaves over the front door. Replace it with an outdoor-rated sensor if the weather damages it. | Keep and shelter; buy an outdoor sensor now | The eaves keep it dry, and no extra cost now. Chosen by b0ts. Resolves I6. | 2026-11-15 |
 | DD-10 | Shelly BLU Door/Window ZB in Zigbee mode | Zigbee; Bluetooth | Zigbee2MQTT supports it as model SBDW-103C. No Bluetooth support needed. Resolves I5, subject to the Step 6 pairing test. | 2026-11-15 |
@@ -775,30 +775,28 @@ See Section 5.3.
 
 **Open questions:**
 
-- **Blocking:** PRD changes R1 to R4 (Section 16) affect Must-have use cases
-  UC-3 to UC-8. They need a PRD v1.2 and a Tracking decision before this
-  Spec can go to User Experience. (b0ts, Requirements chat)
-- Zigbee2MQTT or ZHA (DD-4)? Needed before any device is paired. (b0ts)
+- None blocks the hand-off. PRD changes R1 to R4 are answered by PRD
+  version 1.2 (Section 16); its sign-off is recorded in the Tracking chat
+  together with this Spec's review. Signing off this Spec also confirms
+  Zigbee2MQTT (DD-4), which must happen before any device is paired.
 - Licences for Speech-to-Phrase, the Piper voice and the openWakeWord models
   (Section 11.2). Non-blocking. (DevOps, Step 6)
 - What do James's answers change? The questions were sent on 2026-11-14.
   They may refine the voice, announcement and alarm details. Non-blocking.
   (b0ts)
-- Is D9 (PRD v1.1 approved) recorded in the Tracking Checklist? (b0ts,
-  Tracking chat)
 - The hardware total (I4). (b0ts, Step 6 cost sign-off)
 
 ## 16. Requests Sent Back to the PRD
 
 | Request | Reason | PRD version that answered it |
 |---|---|---|
-| R1: UC-6 step 2 and UC-7: during an alarm the Christmas-light plug flashes 5 seconds on, 5 seconds off. Only the porch light flashes SOS. Update the matching acceptance criteria and D7's note. | Hardware wear: the plug is rated for 10,000 switching cycles, and SOS for 30 minutes uses about 480 to 950 per alarm (Section 5.4) | Pending (v1.2) |
-| R2: Remove the "Cloud voice service" actor (Section 3, use case diagram, UC-3 to UC-5 and UC-7 actors). Remove UC-3's "internet is working" precondition. Change Section 6 Privacy to "no voice audio leaves the home system". | Voice design Option A (d04-02, DD-2): all voice processing is on the Pi | Pending (v1.2) |
-| R3: Define the password in UC-5, UC-7 and UC-8 as a spoken code of digits (4 digits proposed), said as "code" followed by the digits | A phrase-only recognizer needs a fixed vocabulary. Digits let every wrong code be heard as wrong (DD-6). | Pending (v1.2) |
-| R4: UC-8: the wake word is chosen from the built-in list rather than typed in | Wake words that run on the Pi come from a fixed list. A custom one would need training (d04-02). | Pending (v1.2) |
+| R1: UC-6 step 2 and UC-7: during an alarm the Christmas-light plug flashes 5 seconds on, 5 seconds off. Only the porch light flashes SOS. Update the matching acceptance criteria and D7's note. | Hardware wear: the plug is rated for 10,000 switching cycles, and SOS for 30 minutes uses about 480 to 950 per alarm (Section 5.4) | d03-01 v1.2, 2026-11-15 |
+| R2: Remove the "Cloud voice service" actor (Section 3, use case diagram, UC-3 to UC-5 and UC-7 actors). Remove UC-3's "internet is working" precondition. Change Section 6 Privacy to "no voice audio leaves the home system". | Voice design Option A (d04-02, DD-2): all voice processing is on the Pi | d03-01 v1.2, 2026-11-15 |
+| R3: Define the password in UC-5, UC-7 and UC-8 as a spoken code of digits (4 digits proposed), said as "code" followed by the digits | A phrase-only recognizer needs a fixed vocabulary. Digits let every wrong code be heard as wrong (DD-6). | d03-01 v1.2, 2026-11-15 |
+| R4: UC-8: the wake word is chosen from the built-in list rather than typed in | Wake words that run on the Pi come from a fixed list. A custom one would need training (d04-02). | d03-01 v1.2, 2026-11-15 |
 
 ## 17. Change Log
 
 | Version | Date | Change | Reason | Approved by |
 |---|---|---|---|---|
-| 1.0 | 2026-11-15 | First version (draft for review) | — | Pending (b0ts) |
+| 1.0 | 2026-11-15 | First version; updated to PRD version 1.2, which answers requests R1 to R4 | — | Pending (b0ts) |
