@@ -1,7 +1,7 @@
 # AI Home Automation, Starter System: Software Design Specification (Spec)
 
 **Document:** d04-01 · **Step:** 4, Design · **Version:** 1.0
-· **Last updated:** 2026-11-15 · **Status:** Awaiting sign-off
+· **Last updated:** 2026-11-15 · **Status:** Approved
 · **Owner:** Software Architect (Design chat)
 
 **Diagrams included:** System Overview; UML Sequence Diagram for every use
@@ -799,4 +799,4 @@ See Section 5.3.
 
 | Version | Date | Change | Reason | Approved by |
 |---|---|---|---|---|
-| 1.0 | 2026-11-15 | First version; updated to PRD version 1.2, which answers requests R1 to R4 | — | Pending (b0ts) |
+| 1.0 | 2026-11-15 | First version; updated to PRD version 1.2, which answers requests R1 to R4 | — | b0ts (D12) |

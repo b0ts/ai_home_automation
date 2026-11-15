@@ -23,6 +23,6 @@ Working alone for now.
 
 ## Status
 
-Step 4: Design in progress.
+Step 5: User Experience in progress.
 The tracking checklist, [`docs/d01-01-checklist.md`](docs/d01-01-checklist.md),
 has the details.
