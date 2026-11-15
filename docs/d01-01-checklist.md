@@ -1,6 +1,6 @@
 # ai_home_automation: Tracking Checklist
 
-**Document:** d01-01 · **Step:** 1, Tracking · **Last updated:** 2026-11-12
+**Document:** d01-01 · **Step:** 1, Tracking · **Last updated:** 2026-11-14
 · **Overall status:** On track
 
 ## 1. Project Summary
@@ -21,7 +21,7 @@
 ## 2. Step Checklist
 
 - [x] Step 1: Tracking: initialized 2026-11-12 (ongoing)
-- [ ] Step 2: Feasibility
+- [x] Step 2: Feasibility: approved 2026-11-14 (D4)
 - [ ] Step 3: Requirements
 - [ ] Step 4: Design
 - [ ] Step 5: User Experience
@@ -46,6 +46,8 @@ Not used for this project.
 | D1 | 2026-11-12 | 1 Tracking | Tracking initialized: small project, checklist only; workflow's default tools (Claude Project chats for Steps 2 to 5, Claude Code for Steps 6 to 10); status reports on request | b0ts | Project set up; small, single-phase build, with later projects in their own repos |
 | D2 | 2026-11-12 | 1 Tracking | Repo is public, under the MIT license (copyright Robert H. Bourbonnais) | b0ts | Chosen during project setup |
 | D3 | 2026-11-12 | 1 Tracking | Background notes (project intent and the description of James's system) kept out of the public repo | b0ts | Privacy: the notes describe a friend's home system |
+| D4 | 2026-11-14 | 2 Feasibility | Go: one-pager (d02-01) version 3.9 approved, including its five use cases (Christmas lights, porch light, voice light control, leaving and returning, back-door alarm), a one-time budget under $500, and up to $50 a month. Its length (about 950 words, over the template's 400) is accepted. | b0ts | Use cases are small and well supported; testing the hardware first removes the biggest unknowns. Open items I4 to I6 carry into Requirements. |
+| D5 | 2026-11-14 | 2 Feasibility | Feasibility study (d02-02), pitch summary (d02-03) and proposal (d02-04) not used; their blank templates removed from `docs/` | b0ts | Small, self-funded project with a single idea |
 
 ## 5. Issue Log
 
@@ -54,16 +56,20 @@ Not used for this project.
 | I1 | 2026-11-12 | 1 Tracking | The workflow's prompts and templates are written for software-only projects. This project also has a hardware side: buying and assembling devices, flashing the operating system, and pairing Zigbee devices. | Steps 4, 6, 7 and 8 must explicitly cover hardware: the parts list and wiring in the Spec, physical setup in the Infrastructure Document, and manual or on-device checks in the Test Plan. Lessons can feed back into the workflow repo. | b0ts | Open |
 | I2 | 2026-11-12 | 6 Initial Infrastructure | Some hardware was ordered before the Step 6 cost sign-off. | The Cost Sign-Off Sheet (d06-03) should list hardware already bought against the $500 budget, as well as any remaining costs, such as subscriptions or cloud AI usage. | b0ts | Open |
 | I3 | 2026-11-12 | 2 Feasibility | The repo is public, and the background notes describe a friend's home system. | Resolved by D3: the notes stay out of the repo and are attached to chats directly. Deliverables should describe James's system only in general terms. | b0ts | Resolved |
+| I4 | 2026-11-14 | 2 Feasibility | The one-pager's hardware total is still TBD, and the parts list has grown (Shelly plug, door sensor, USB speakerphone). | Must be confirmed under the $500 one-time budget; the Step 6 cost sign-off (d06-03) depends on it. | b0ts | Open |
+| I5 | 2026-11-14 | 2 Feasibility | The planned door sensor (Shelly BLU Door/Window ZB) needs confirming as a Zigbee model; Shelly's BLU line is mostly Bluetooth. | If it isn't Zigbee, the Design (Step 4) must add Bluetooth support, or a different sensor is chosen. | b0ts | Open |
+| I6 | 2026-11-14 | 2 Feasibility | The porch-light use case needs a motion sensor that can see the front door; the SONOFF SNZB-03PR2 may be indoor-only. | Requirements and Design must say where the sensor goes, and whether an outdoor-rated sensor is needed (and its cost, under I4). | b0ts | Open |
 
 ## 6. Open Questions
 
-- Which parts of James's system are in scope for the minimal build: cloud AI conversation through Claude, the voice puck, the occupancy "brain", or lights and motion only? (b0ts, in Step 2: Feasibility)
-- Will ongoing costs, such as a Nabu Casa cloud subscription or Claude API usage, count against the $500 budget? (b0ts, by Step 6 cost sign-off)
+- Does the Claude Pro subscription ($20 a month, used for development) count against the $50 monthly budget, or is it an existing cost? (b0ts, by Step 6 cost sign-off)
+- What is the hardware total? (b0ts, see I4)
+- Who will be the second person for the replication test? (b0ts, by Step 9: Release)
 
 ## 7. Next Action
 
-- **Next chat:** Step 2: Feasibility. Open a new chat named `02-feasibility` in the "ai_home_automation" Claude Project.
-- **Prompt:** `prompts/c02-feasibility-prompt.md`
-- **Templates to fill in:** `docs/d02-01-one-pager.md` only. This is a small, self-funded project, so the feasibility study (d02-02), pitch summary (d02-03) and proposal (d02-04) aren't needed.
-- **Give it:** `prompts/c02-feasibility-prompt.md`, `docs/d01-01-checklist.md`, `docs/d02-01-one-pager.md`, and b0ts's background notes file (kept outside the repo)
+- **Next chat:** Step 3: Requirements. Open a new chat named `03-requirements` in the "ai_home_automation" Claude Project.
+- **Prompt:** `prompts/c03-requirements-prompt.md`
+- **Templates to fill in:** `docs/d03-01-prd.md`
+- **Give it:** `prompts/c03-requirements-prompt.md`, `docs/d01-01-checklist.md` (for the Go decision and open issues I4 to I6), `docs/d02-01-one-pager.md`, `docs/d03-01-prd.md`, and b0ts's background notes file (kept outside the repo)
 - **Waiting on:** nothing
