@@ -1,7 +1,7 @@
 # AI Home Automation, Starter System: One-Pager
 
 **Document:** d02-01 · **Step:** 2, Feasibility · **Version:** 3.9
-· **Last updated:** 2026-11-14 · **Status:** Awaiting decision
+· **Last updated:** 2026-11-14 · **Status:** Go
 · **Owner:** Product Manager (Feasibility chat)
 
 ## 1. Problem
